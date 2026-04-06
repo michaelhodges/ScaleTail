@@ -90,6 +90,7 @@ ScaleTail provides ready-to-run [Docker Compose](https://docs.docker.com/compose
 | 🎧 **Audiobookshelf** | A self-hosted audiobook and podcast server with multi-user support and playback syncing.    | [Details](services/audiobookshelf) |
 | 🎥 **Bazarr**         | A companion tool to Radarr and Sonarr for managing subtitles.                               | [Details](services/bazarr)         |
 | 📚 **BookLore**       | A self-hosted application for managing and reading books.                                   | [Details](services/booklore)       |
+| 🎥 **Frigate**        | A self-hosted NVR with real-time AI object detection for IP cameras and local video monitoring. | [Details](services/frigate)        |
 | 🎮 **Hytale**         | A self-hosted Hytale game server.                                                           | [Details](services/hytale)         |
 | 🖼️ **Immich**         | A self-hosted Google Photos alternative with face recognition and mobile sync.              | [Details](services/immich)         |
 | 📺 **Jellyfin**       | An open-source media system that puts you in control of managing and streaming your media.  | [Details](services/jellyfin)       |
@@ -116,6 +117,7 @@ ScaleTail provides ready-to-run [Docker Compose](https://docs.docker.com/compose
 | 💼 Service           | 📝 Description                                                                                                                                                              | 🔗 Link                            |
 | ------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------- |
 | 💰 **Actual Budget** | A self-hosted personal finance and budgeting app focused on privacy and full data ownership.                                                                               | [Details](services/actual-budget) |
+| ⚓ **Anchor**        | An offline-first, self-hosted note-taking app with sync, attachments, sharing, and optional OIDC authentication.                                                          | [Details](services/anchor)        |
 | ✂️ **ClipCascade**   | A self-hosted clipboard manager for syncing and organizing clipboard history.                                                                                              | [Details](services/clipcascade)   |
 | 🗂️ **Copyparty**     | A self-hosted file server with accelerated resumable uploads.                                                                                                              | [Details](services/copyparty)     |
 | ✅ **Donetick**      | A self-hosted task and checklist manager for productivity.                                                                                                                 | [Details](services/donetick)      |
