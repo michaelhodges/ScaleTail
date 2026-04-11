@@ -4,7 +4,7 @@ configs:
       {"TCP":{"443":{"HTTPS":true}},
       "Web":{"$${TS_CERT_DOMAIN}:443":
           {"Handlers":{"/":
-          {"Proxy":"http://127.0.0.1:8080"}}}},
+          {"Proxy":"http://127.0.0.1:3000"}}}},
       "AllowFunnel":{"$${TS_CERT_DOMAIN}:443":false}}
 
 services:
@@ -49,52 +49,27 @@ services:
 
   # ${SERVICE}
   application:
-    image: ${IMAGE_URL} # Image to be used
+    image: ${IMAGE_URL}
     network_mode: service:tailscale # Sidecar configuration to route ${SERVICE} through Tailscale
-    container_name: app-${SERVICE} # Name for local container management
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=${TZ}
-      - SEARXNG_BASE_URL=https://searxng.${TAILNET_NAME}.ts.net/
-    volumes:
-      - ./searxng:/etc/searxng:rw
-    cap_drop:
-      - ALL
-    cap_add:
-      - CHOWN
-      - SETGID
-      - SETUID
-    restart: always
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "1m"
-        max-file: "1"
-    depends_on:
-      tailscale:
-        condition: service_healthy
-      redis:
-        condition: service_started
-
-  redis:
-    container_name: redis-searxng
-    image: docker.io/valkey/valkey:8-alpine
-    command: valkey-server --save 30 1 --loglevel warning
+    container_name: app-${SERVICE}
     restart: unless-stopped
+    #ports:
+    #  - 0.0.0.0:${SERVICEPORT}:${SERVICEPORT} # Binding port ${SERVICE}PORT to the local network - may be removed if only exposure to your Tailnet is required
+    # If any DNS issues arise, use your preferred DNS provider by uncommenting the config below
+    #dns: 
+     # - ${DNS_SERVER}
+    environment:
+      - NODE_ENV=production
+      - PUBLIC_URL=${PUBLIC_URL} # Optional: Set this to the public URL of your service if needed for correct URL generation in the app. For example, if you are exposing the service at https://example.com, set PUBLIC_URL=https://example.com.
+      
+      # Optional: lock sessions to a known secret
+      - SESSION_SECRET=${SESSION_SECRET}
+      
+      # Optional host UID/GID mapping
+      - PUID=${PUID} # Change according to your customization if needed
+      - PGID=${PGID} # Change according to your customization if needed
     volumes:
-      - valkey-data2:/data
-    cap_drop:
-      - ALL
-    cap_add:
-      - SETGID
-      - SETUID
-      - DAC_OVERRIDE
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "1m"
-        max-file: "1"
-
-volumes:
-  valkey-data2:
+      - ./config:/config
+      - ./cache:/cache
+      # Each /mnt/<Label> mount becomes a top-level volume in the UI
+      - ${ACCESS_PATH}:/mnt/Files # This needs to be changed by user
