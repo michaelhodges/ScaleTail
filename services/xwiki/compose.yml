@@ -47,16 +47,17 @@ services:
       start_period: 10s # Time to wait before starting health checks
     restart: always
 
+# ${SERVICE}
   application:
-    image: ${IMAGE_URL}
-    network_mode: service:tailscale
-    container_name: app-${SERVICE}
+    image: ${IMAGE_URL} # Image to be used
+    network_mode: service:tailscale # Sidecar configuration to route ${SERVICE} through Tailscale
+    container_name: app-${SERVICE} # Name for local container management
     depends_on:
       tailscale:
         condition: service_healthy
       db:
         condition: service_started
-    environment:
+    environment: # Varibles are delared in .env file.
       - XWIKI_VERSION=${XWIKI_VERSION}
       - DB_USER=${DB_USER}
       - DB_PASSWORD=${DB_PASSWORD}
